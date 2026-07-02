@@ -17,8 +17,8 @@ font-family:"Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sa
 .hero{position:relative;text-align:center;padding:2px 16px 10px;overflow:hidden}
 .bunt{width:120%;max-width:none;margin:0 -10% 0;display:block;transform-origin:top center;animation:sway 5s ease-in-out infinite;will-change:transform}
 .logo-wrap{position:relative;display:inline-block;margin-top:-4px}
-.logo-wrap::before{content:"";position:absolute;left:50%;bottom:2%;width:66%;height:52%;transform:translateX(-50%);border-radius:50%;
-background:radial-gradient(closest-side,rgba(255,214,120,.95),rgba(255,140,40,.35) 55%,rgba(255,120,30,0) 78%);z-index:0;animation:glow 1.3s ease-in-out infinite;will-change:transform,opacity}
+.logo-wrap::before{content:"";position:absolute;left:50%;bottom:-1%;width:74%;height:60%;transform:translateX(-50%);border-radius:50%;
+background:radial-gradient(closest-side,rgba(255,206,110,.72),rgba(255,150,50,.24) 58%,rgba(255,120,30,0) 80%);z-index:0;animation:glow 4s ease-in-out infinite;will-change:opacity}
 .logo{position:relative;z-index:1;width:260px;max-width:76%;height:auto;filter:drop-shadow(0 8px 12px rgba(63,30,21,.28));animation:popIn .8s cubic-bezier(.2,.9,.3,1.5) both}
 .banner{display:inline-block;margin:8px auto 4px;background:var(--brown);color:var(--cream);font-weight:800;
 letter-spacing:.06em;text-transform:uppercase;font-size:31px;padding:13px 44px;border-radius:13px;
@@ -74,7 +74,7 @@ box-shadow:0 0 6px rgba(221,74,78,.5);animation:flick 1.6s ease-in-out infinite}
 #fx{position:fixed;inset:0;z-index:29;pointer-events:none}
 .foot{text-align:center;color:var(--brown);font-size:13px;line-height:1.6;padding:24px 26px 0;opacity:.9;font-weight:700}
 @keyframes sway{0%{transform:rotate(-2.8deg) skewX(-2.2deg) translate(-6px,0)}16%{transform:rotate(1.4deg) skewX(1.2deg) translate(4px,1px)}32%{transform:rotate(3deg) skewX(2.6deg) translate(7px,-1px)}50%{transform:rotate(-.8deg) skewX(-1deg) translate(-3px,1px)}68%{transform:rotate(2.4deg) skewX(2deg) translate(5px,0)}84%{transform:rotate(-1.6deg) skewX(-1.4deg) translate(-4px,1px)}100%{transform:rotate(-2.8deg) skewX(-2.2deg) translate(-6px,0)}}
-@keyframes glow{0%{opacity:.62;transform:translateX(-50%) scale(.95,.9)}28%{opacity:.95;transform:translateX(-50%) scale(1.05,1.12)}52%{opacity:.72;transform:translateX(-51%) scale(.98,.96)}74%{opacity:1;transform:translateX(-49%) scale(1.08,1.16)}100%{opacity:.62;transform:translateX(-50%) scale(.95,.9)}}
+@keyframes glow{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:.82;transform:translateX(-50%) scale(1.04)}}
 @keyframes popIn{0%{opacity:0;transform:scale(.62) translateY(12px)}60%{opacity:1;transform:scale(1.05) translateY(0)}100%{opacity:1;transform:scale(1)}}
 @keyframes flick{0%,100%{transform:rotate(-2deg) scale(1)}50%{transform:rotate(3deg) scale(1.12)}}
 @media (prefers-reduced-motion:reduce){.bunt,.logo-wrap::before,.flame{animation:none}.card{opacity:1;transform:none;transition:none}}
@@ -178,32 +178,10 @@ toTop.addEventListener('click',()=>scrollTo({top:0,behavior:rm?'auto':'smooth'})
 const cv=document.getElementById('fx'),cx=cv.getContext('2d');let P=[];
 function fit(){cv.width=innerWidth;cv.height=innerHeight;}fit();addEventListener('resize',fit);
 const C=['#FFD15C','#FF8A2B','#DD4A4E','#F9A93E','#FBF3E1'];
-function firework(x,y){for(let i=0;i<48;i++){const a=Math.random()*6.28,s=2+Math.random()*5.5;P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,life:1,c:C[i%C.length],sz:2+Math.random()*2.5});}}
-function randBurst(){firework(innerWidth*(.15+Math.random()*.7),innerHeight*(.15+Math.random()*.35));}
-if(!rm){
-  // welcome sequence
-  [400,900,1400].forEach(t=>setTimeout(randBurst,t));
-  // ambient: keep popping on its own
-  setInterval(()=>{randBurst();if(Math.random()<.5)setTimeout(randBurst,400);},5000);
-}
-// ---- living embers rising from the campfire in the logo ----
-const logoEl=document.getElementById('logo');let E=[];
-const EMBER=['#FFE38A','#FF9A3C','#FFC24B','#FF6E2E'];
-function spawnEmbers(){if(rm)return;const r=logoEl.getBoundingClientRect();
- if(r.bottom<-20||r.top>innerHeight)return;
- const cx0=r.left+r.width*0.5, base=r.top+r.height*0.88;
- for(let i=0;i<2;i++){E.push({x:cx0+(Math.random()-.5)*24,y:base-Math.random()*6,
-  vx:(Math.random()-.5)*.5,vy:-(0.5+Math.random()*1.15),life:1,dl:0.9+Math.random()*0.5,
-  sz:1.4+Math.random()*2.3,c:EMBER[i%EMBER.length],w:Math.random()*6.28});}}
+function firework(x,y){for(let i=0;i<20;i++){const a=Math.random()*6.28,s=1.4+Math.random()*3;P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-.6,life:1,c:C[i%C.length],sz:1.4+Math.random()*1.8});}}
+function randBurst(){const left=Math.random()<.5;const x=left?innerWidth*(.06+Math.random()*.12):innerWidth*(.82+Math.random()*.12);firework(x,innerHeight*(.10+Math.random()*.12));}
+if(!rm){setTimeout(randBurst,900);setInterval(randBurst,13000);}
 function loop(){cx.clearRect(0,0,cv.width,cv.height);
- // embers (additive glow)
- spawnEmbers();
- cx.globalCompositeOperation='lighter';
- E.forEach(e=>{e.w+=0.18;e.x+=e.vx+Math.sin(e.w)*0.35;e.y+=e.vy;e.vy*=0.992;e.life-=0.012*e.dl;
-  const a=Math.max(e.life,0);cx.globalAlpha=a*0.9;cx.fillStyle=e.c;
-  cx.beginPath();cx.arc(e.x,e.y,e.sz*(0.6+a*0.6),0,6.28);cx.fill();});
- cx.globalCompositeOperation='source-over';cx.globalAlpha=1;E=E.filter(e=>e.life>0);
- // fireworks
  P.forEach(p=>{p.vx*=.98;p.vy+=.08;p.x+=p.vx;p.y+=p.vy;p.life-=.016;cx.globalAlpha=Math.max(p.life,0);cx.fillStyle=p.c;cx.beginPath();cx.arc(p.x,p.y,p.sz,0,6.28);cx.fill();});
  cx.globalAlpha=1;P=P.filter(p=>p.life>0);requestAnimationFrame(loop);}loop();
 </script>
