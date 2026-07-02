@@ -26,7 +26,7 @@ box-shadow:0 4px 0 rgba(63,30,21,.35);position:relative;z-index:2}
 .meta{margin:12px auto 0;color:var(--brown);font-weight:800;font-size:15px;letter-spacing:.02em;
 background:rgba(251,243,225,.65);display:inline-block;padding:7px 16px;border-radius:999px;max-width:100%}
 .meta b{color:var(--red)}
-.bar{position:sticky;top:0;z-index:20;padding:10px 14px 9px;
+.bar{position:sticky;top:0;z-index:20;padding:10px 12px 10px;
 background:linear-gradient(180deg,rgba(249,169,62,.98),rgba(249,169,62,.92));backdrop-filter:blur(6px);
 box-shadow:0 6px 14px -8px rgba(63,30,21,.4)}
 .search{display:flex;align-items:center;gap:9px;background:var(--cream2);border:2px solid rgba(63,30,21,.14);
@@ -36,11 +36,14 @@ border-radius:999px;padding:10px 15px;margin-bottom:9px}
 .search .clr{border:none;background:rgba(63,30,21,.12);color:var(--brown);border-radius:50%;width:24px;height:24px;
 cursor:pointer;font-weight:800;line-height:1;display:none;flex:0 0 auto}
 .search .clr.show{display:block}
-.tabs{display:flex;justify-content:safe center;gap:8px;overflow-x:auto;scrollbar-width:none}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:0}
 .tabs::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;cursor:pointer;font:inherit;font-weight:800;font-size:15.5px;padding:11px 18px;border-radius:999px;
-background:var(--cream2);color:var(--brown2);border:2px solid rgba(63,30,21,.12);transition:transform .15s,background .2s,color .2s}
-.chip.on{background:var(--brown);color:var(--cream);border-color:var(--brown);transform:translateY(-1px)}
+.tabs::after{content:none}
+.chip{width:100%;min-width:0;cursor:pointer;font:inherit;font-weight:800;font-size:clamp(12px,3.3vw,15.5px);padding:13px 4px;border-radius:14px;
+background:var(--cream2);color:var(--brown);border:2px solid rgba(63,30,21,.14);transition:transform .15s,background .2s,color .2s;
+text-align:center;white-space:nowrap;box-shadow:0 3px 0 rgba(63,30,21,.14)}
+.chip.on{background:var(--brown);color:var(--cream);border-color:var(--brown);box-shadow:0 3px 0 rgba(63,30,21,.35)}
+.chip:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(63,30,21,.14)}
 .chip:active{transform:scale(.94)}
 .grp{padding:6px 14px 2px;scroll-margin-top:124px}
 .grp-h{text-align:center;margin:20px 0 6px}
